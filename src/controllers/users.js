@@ -1,15 +1,15 @@
 const Users = require('../models/users')
 
-const UsersController = {
+const usersController = {
   createUser: async (req, res) => {
-    let { name, password, login, team_id, active } = req.body
+    let { name, password, login, team_id } = req.body
     try {
       const result = await Users.create({
         name,
         password,
         login,
         team_id,
-        active,
+        active: true,
         updatedAt: new Date(),
         createdAt: new Date()
       })
@@ -55,13 +55,12 @@ const UsersController = {
         return
       }
       user.set({
-        name,
-        password,
-        login,
-        team_id,
-        active,
-        updatedAt: new Date(),
-        createdAt: new Date()
+        name: name || user.name,
+        password: password || user.password,
+        login: login || user.login,
+        team_id: team_id || user.team_id,
+        active: active || user.active,
+        updatedAt: new Date()
       })
       const result = await user.save()
       res.send(result)
@@ -110,4 +109,4 @@ const UsersController = {
   }
 }
 
-module.exports = UsersController
+module.exports = usersController

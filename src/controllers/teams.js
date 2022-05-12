@@ -1,15 +1,14 @@
 const Teams = require('../models/teams')
 
-const TeamsController = {
+const teamsController = {
   createTeam: async (req, res) => {
     let {
-      name,
-      active
+      name
     } = req.body
     try {
       const result = await Teams.create({
         name,
-        active,
+        active: true,
         updatedAt: new Date(),
         createdAt: new Date()
       })
@@ -62,8 +61,8 @@ const TeamsController = {
         return
       }
       team.set({
-        name,
-        active,
+        name: name || team.name,
+        active: active || team.active,
         updatedAt: new Date()
       })
       const result = await team.save()
@@ -115,4 +114,4 @@ const TeamsController = {
   }
 }
 
-module.exports = TeamsController
+module.exports = teamsController
